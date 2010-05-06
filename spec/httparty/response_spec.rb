@@ -49,6 +49,13 @@ describe HTTParty::Response do
     }.should_not raise_error
   end
   
+  it "should allow headers to be accessed by mixed-case names in hash notation" do
+    # the downcased header below is how HTTParty receives the headers from Net::HTTP
+    headers = {'foo-bar' => 'baz'}
+    response = HTTParty::Response.new([{'foo' => 'bar'}, {'foo' => 'baz'}], "[{foo:'bar'}, {foo:'baz'}]", 200, 'OK', headers)
+    response.headers['Foo-Bar'].should == 'baz'
+  end
+  
   xit "should allow hashes to be accessed with dot notation" do
     response = HTTParty::Response.new({'foo' => 'bar'}, "{foo:'bar'}", 200, 'OK')
     response.foo.should == 'bar'
