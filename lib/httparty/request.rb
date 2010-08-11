@@ -149,6 +149,7 @@ module HTTParty
       @raw_request.body = body if body
       @raw_request.initialize_http_header(options[:headers])
       @raw_request.basic_auth(username, password) if options[:basic_auth]
+      AuthHMAC.sign!(@raw_request, options[:hmac][:id], options[:hmac][:secret]) if options[:hmac]
       setup_digest_auth if options[:digest_auth]
     end
 
