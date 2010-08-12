@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.name = %q{httparty}
   s.version = "0.7.1"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Nunemaker", "Sandro Turriate"]
   s.date = %q{2011-01-19}
   s.default_executable = %q{httparty}
@@ -129,22 +129,10 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<fakeweb>, ["~> 1.2"])
       s.add_development_dependency(%q<rspec>, ["~> 1.3"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5"])
-      s.add_runtime_dependency(%q<crack>, ["= 0.1.8"])
-      s.add_development_dependency(%q<activesupport>, ["~> 2.3"])
-      s.add_development_dependency(%q<cucumber>, ["~> 0.7"])
-      s.add_development_dependency(%q<fakeweb>, ["~> 1.2"])
-      s.add_development_dependency(%q<rspec>, ["~> 1.3"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.5"])
     else
       s.add_dependency(%q<httparty>, [">= 0"])
       s.add_dependency(%q<crack>, ["= 0.1.8"])
       s.add_dependency(%q<mongrel>, ["= 1.2.0.pre2"])
-      s.add_dependency(%q<activesupport>, ["~> 2.3"])
-      s.add_dependency(%q<cucumber>, ["~> 0.7"])
-      s.add_dependency(%q<fakeweb>, ["~> 1.2"])
-      s.add_dependency(%q<rspec>, ["~> 1.3"])
-      s.add_dependency(%q<jeweler>, ["~> 1.5"])
-      s.add_dependency(%q<crack>, ["= 0.1.8"])
       s.add_dependency(%q<activesupport>, ["~> 2.3"])
       s.add_dependency(%q<cucumber>, ["~> 0.7"])
       s.add_dependency(%q<fakeweb>, ["~> 1.2"])
@@ -155,12 +143,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<httparty>, [">= 0"])
     s.add_dependency(%q<crack>, ["= 0.1.8"])
     s.add_dependency(%q<mongrel>, ["= 1.2.0.pre2"])
-    s.add_dependency(%q<activesupport>, ["~> 2.3"])
-    s.add_dependency(%q<cucumber>, ["~> 0.7"])
-    s.add_dependency(%q<fakeweb>, ["~> 1.2"])
-    s.add_dependency(%q<rspec>, ["~> 1.3"])
-    s.add_dependency(%q<jeweler>, ["~> 1.5"])
-    s.add_dependency(%q<crack>, ["= 0.1.8"])
     s.add_dependency(%q<activesupport>, ["~> 2.3"])
     s.add_dependency(%q<cucumber>, ["~> 0.7"])
     s.add_dependency(%q<fakeweb>, ["~> 1.2"])
