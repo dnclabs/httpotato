@@ -4,13 +4,13 @@ require File.expand_path('../lib/httparty', __FILE__)
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name        = "httparty"
+    gem.name        = "dnclabs-httparty"
     gem.summary     = %Q{Makes http fun! Also, makes consuming restful web services dead easy.}
-    gem.description = %Q{Makes http fun! Also, makes consuming restful web services dead easy.}
-    gem.email       = "nunemaker@gmail.com"
-    gem.homepage    = "http://httparty.rubyforge.org"
-    gem.authors     = ["John Nunemaker", "Sandro Turriate"]
-    gem.version     = HTTParty::VERSION.dup
+    gem.description = %Q{Makes http fun! Also, makes consuming restful web services dead easy. This is the DNC Labs fork.}
+    gem.email       = "innovationlab@dnc.org"
+    gem.homepage    = "http://github.com/dnclabs/httparty/"
+    gem.authors     = ["John Nunemaker", "Sandro Turriate", "Wes Morgan", "Adrian Cushman"]
+    gem.version     = HTTParty::VERSION.dup + '.2010090201'
 
     gem.add_dependency 'crack', HTTParty::CRACK_DEPENDENCY
 
