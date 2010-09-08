@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{dnclabs-httparty}
-  s.version = "0.6.1.2010090201"
+  s.version = "0.6.1.2010090801"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Nunemaker", "Sandro Turriate", "Wes Morgan", "Adrian Cushman"]
-  s.date = %q{2010-09-02}
+  s.date = %q{2010-09-08}
   s.default_executable = %q{httparty}
   s.description = %q{Makes http fun! Also, makes consuming restful web services dead easy. This is the DNC Labs fork.}
   s.email = %q{innovationlab@dnc.org}
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "VERSION",
      "bin/httparty",
      "cucumber.yml",
+     "dnclabs-httparty.gemspec",
      "examples/aaws.rb",
      "examples/basic.rb",
      "examples/custom_parsers.rb",

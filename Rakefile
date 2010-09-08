@@ -10,7 +10,7 @@ begin
     gem.email       = "innovationlab@dnc.org"
     gem.homepage    = "http://github.com/dnclabs/httparty/"
     gem.authors     = ["John Nunemaker", "Sandro Turriate", "Wes Morgan", "Adrian Cushman"]
-    gem.version     = HTTParty::VERSION.dup + '.2010090201'
+    gem.version     = HTTParty::VERSION.dup + '.2010090801'
 
     gem.add_dependency 'crack', HTTParty::CRACK_DEPENDENCY
 
