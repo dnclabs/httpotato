@@ -134,8 +134,8 @@ describe HTTParty::Parser do
       subject.send(:xml)
     end
 
-    it "parses json with Crack" do
-      Crack::JSON.should_receive(:parse).with('body')
+    it "parses json with the json gem" do
+      JSON.should_receive(:parse).with('body')
       subject.send(:json)
     end
 

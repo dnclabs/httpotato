@@ -13,6 +13,7 @@ begin
     gem.version     = HTTParty::VERSION.dup + '.2010090801'
 
     gem.add_dependency 'crack', HTTParty::CRACK_DEPENDENCY
+    gem.add_dependency 'json', HTTParty::JSON_DEPENDENCY
 
     gem.add_development_dependency "activesupport", "~>2.3"
     gem.add_development_dependency "cucumber", "~>0.7"
