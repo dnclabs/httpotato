@@ -1,4 +1,5 @@
 module HTTPotato
+  class ParseError < StandardError; end
   # The default parser used by HTTPotato, supports xml, json, html, yaml, and
   # plain text.
   #
@@ -113,7 +114,11 @@ module HTTPotato
     end
 
     def json
-      JSON.parse(body)
+      begin
+        JSON.parse(body)
+      rescue JSON::ParserError
+        raise ParseError, "Invalid JSON string #{body}"
+      end
     end
 
     def yaml
