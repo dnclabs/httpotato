@@ -60,7 +60,6 @@ module HTTPotato
 
     CODES_TO_OBJ.each do |response_code, klass|
       name = klass.name.sub(/^(?:::)?Net::HTTP/, '')
-      puts "Defining method #{underscore(name)}? for klass #{klass}"
       define_method("#{underscore(name)}?") do
         klass === response
       end
