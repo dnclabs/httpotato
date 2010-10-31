@@ -10,10 +10,10 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wes Morgan", "Adrian Cushman", "Chris Gill"]
   s.date = %q{2010-10-31}
-  s.default_executable = %q{httparty}
+  s.default_executable = %q{httpotato}
   s.description = %q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy. Forked from HTTPotato.}
   s.email = %q{innovationlab@dnc.org}
-  s.executables = ["httparty"]
+  s.executables = ["httpotato"]
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
@@ -25,9 +25,8 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
-     "bin/httparty",
+     "bin/httpotato",
      "cucumber.yml",
-     "dnclabs-httparty.gemspec",
      "examples/aaws.rb",
      "examples/basic.rb",
      "examples/custom_parsers.rb",
@@ -43,13 +42,22 @@ Gem::Specification.new do |s|
      "features/handles_compressed_responses.feature",
      "features/handles_multiple_formats.feature",
      "features/steps/env.rb",
-     "features/steps/httparty_response_steps.rb",
-     "features/steps/httparty_steps.rb",
+     "features/steps/httpotato_response_steps.rb",
+     "features/steps/httpotato_steps.rb",
      "features/steps/mongrel_helper.rb",
      "features/steps/remote_service_steps.rb",
      "features/supports_redirection.feature",
      "features/supports_timeout_option.feature",
-     "httparty.gemspec",
+     "httpotato.gemspec",
+     "lib/httpotato.rb",
+     "lib/httpotato/cookie_hash.rb",
+     "lib/httpotato/core_extensions.rb",
+     "lib/httpotato/exceptions.rb",
+     "lib/httpotato/module_inheritable_attributes.rb",
+     "lib/httpotato/net_digest_auth.rb",
+     "lib/httpotato/parser.rb",
+     "lib/httpotato/request.rb",
+     "lib/httpotato/response.rb",
      "spec/fixtures/delicious.xml",
      "spec/fixtures/empty.xml",
      "spec/fixtures/google.html",
@@ -65,17 +73,18 @@ Gem::Specification.new do |s|
      "spec/fixtures/twitter.json",
      "spec/fixtures/twitter.xml",
      "spec/fixtures/undefined_method_add_node_for_nil.xml",
-     "spec/httparty/cookie_hash_spec.rb",
-     "spec/httparty/parser_spec.rb",
-     "spec/httparty/request_spec.rb",
-     "spec/httparty/response_spec.rb",
-     "spec/httparty/ssl_spec.rb",
-     "spec/httparty_spec.rb",
+     "spec/httpotato/cookie_hash_spec.rb",
+     "spec/httpotato/parser_spec.rb",
+     "spec/httpotato/request_spec.rb",
+     "spec/httpotato/response_spec.rb",
+     "spec/httpotato/ssl_spec.rb",
+     "spec/httpotato_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
      "spec/support/ssl_test_helper.rb",
      "spec/support/ssl_test_server.rb",
      "spec/support/stub_response.rb",
+     "test.rb",
      "website/css/common.css",
      "website/index.html"
   ]
@@ -87,12 +96,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy.}
   s.test_files = [
-    "spec/httparty/cookie_hash_spec.rb",
-     "spec/httparty/parser_spec.rb",
-     "spec/httparty/request_spec.rb",
-     "spec/httparty/response_spec.rb",
-     "spec/httparty/ssl_spec.rb",
-     "spec/httparty_spec.rb",
+    "spec/httpotato/cookie_hash_spec.rb",
+     "spec/httpotato/parser_spec.rb",
+     "spec/httpotato/request_spec.rb",
+     "spec/httpotato/response_spec.rb",
+     "spec/httpotato/ssl_spec.rb",
+     "spec/httpotato_spec.rb",
      "spec/spec_helper.rb",
      "spec/support/ssl_test_helper.rb",
      "spec/support/ssl_test_server.rb",
