@@ -3,7 +3,7 @@ require 'net/http'
 require 'net/https'
 require 'uri'
 require 'zlib'
-require 'crack'
+#require 'crack'
 require 'json/ext'
 
 dir = Pathname(__FILE__).dirname.expand_path
@@ -14,8 +14,7 @@ require dir + 'httparty/net_digest_auth'
 
 # @see HTTParty::ClassMethods
 module HTTParty
-  VERSION          = "0.7.1".freeze
-  CRACK_DEPENDENCY = "0.1.8".freeze
+  VERSION          = "0.1.0".freeze
   JSON_DEPENDENCY  = "1.4.6".freeze
 
   module AllowedFormatsDeprecation
@@ -460,6 +459,6 @@ if JSON::VERSION != HTTParty::JSON_DEPENDENCY
   warn "warning: HTTParty depends on version #{HTTParty::JSON_DEPENDENCY} of json, not #{JSON::VERSION}."
 end
 
-if Crack::VERSION != HTTParty::CRACK_DEPENDENCY
-  warn "warning: HTTParty depends on version #{HTTParty::CRACK_DEPENDENCY} of crack, not #{Crack::VERSION}."
-end
+#if Crack::VERSION != HTTParty::CRACK_DEPENDENCY
+  #warn "warning: HTTParty depends on version #{HTTParty::CRACK_DEPENDENCY} of crack, not #{Crack::VERSION}."
+#end
