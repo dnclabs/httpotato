@@ -59,7 +59,8 @@ module HTTPotato
     CODES_TO_OBJ = ::Net::HTTPResponse::CODE_CLASS_TO_OBJ.merge ::Net::HTTPResponse::CODE_TO_OBJ
 
     CODES_TO_OBJ.each do |response_code, klass|
-      name = klass.name.sub("::Net::HTTP", '')
+      name = klass.name.sub(/^(?:::)?Net::HTTP/, '')
+      puts "Defining method #{underscore(name)}? for klass #{klass}"
       define_method("#{underscore(name)}?") do
         klass === response
       end
