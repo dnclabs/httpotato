@@ -1,8 +1,8 @@
 class ParseAtom
-  include HTTParty
+  include HTTPotato
 
   # Support Atom along with the default parsers: xml, json, yaml, etc.
-  class Parser::Atom < HTTParty::Parser
+  class Parser::Atom < HTTPotato::Parser
     SupportedFormats.merge!({"application/atom+xml" => :atom})
 
     protected
@@ -18,10 +18,10 @@ end
 
 
 class OnlyParseAtom
-  include HTTParty
+  include HTTPotato
 
   # Only support Atom
-  class Parser::OnlyAtom < HTTParty::Parser
+  class Parser::OnlyAtom < HTTPotato::Parser
     SupportedFormats = {"application/atom+xml" => :atom}
 
     protected
@@ -37,10 +37,10 @@ end
 
 
 class SkipParsing
-  include HTTParty
+  include HTTPotato
 
   # Parse the response body however you like
-  class Parser::Simple < HTTParty::Parser
+  class Parser::Simple < HTTPotato::Parser
     def parse
       body
     end
@@ -51,7 +51,7 @@ end
 
 
 class AdHocParsing
-  include HTTParty
+  include HTTPotato
   parser(
     Proc.new do |body, format|
       case format

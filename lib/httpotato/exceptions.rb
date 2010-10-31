@@ -1,4 +1,4 @@
-module HTTParty
+module HTTPotato
   # Exception raised when you attempt to set a non-existant format
   class UnsupportedFormat < StandardError; end
 

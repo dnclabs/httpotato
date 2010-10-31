@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
-describe HTTParty::Request do
+describe HTTPotato::Request do
   context "SSL certificate verification" do
     before do
       FakeWeb.allow_net_connect = true    # enable network connections just for this test

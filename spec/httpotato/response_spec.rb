@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
-describe HTTParty::Response do
+describe HTTPotato::Response do
   before do
     @last_modified = Date.new(2010, 1, 15).to_s
     @content_length = '1024'
@@ -10,20 +10,20 @@ describe HTTParty::Response do
     @response_object['last-modified'] = @last_modified
     @response_object['content-length'] = @content_length
     @parsed_response = {"foo" => "bar"}
-    @response = HTTParty::Response.new(@request_object, @response_object, @parsed_response)
+    @response = HTTPotato::Response.new(@request_object, @response_object, @parsed_response)
   end
 
   describe ".underscore" do
     it "works with one capitalized word" do
-      HTTParty::Response.underscore("Accepted").should == "accepted"
+      HTTPotato::Response.underscore("Accepted").should == "accepted"
     end
 
     it "works with titlecase" do
-      HTTParty::Response.underscore("BadGateway").should == "bad_gateway"
+      HTTPotato::Response.underscore("BadGateway").should == "bad_gateway"
     end
 
     it "works with all caps" do
-      HTTParty::Response.underscore("OK").should == "ok"
+      HTTPotato::Response.underscore("OK").should == "ok"
     end
   end
 
@@ -46,17 +46,17 @@ describe HTTParty::Response do
   end
 
   it "returns response headers" do
-    response = HTTParty::Response.new(@request_object, @response_object, @parsed_response)
+    response = HTTPotato::Response.new(@request_object, @response_object, @parsed_response)
     response.headers.should == {'last-modified' => [@last_modified], 'content-length' => [@content_length]}
   end
 
   it "should send missing methods to delegate" do
-    response = HTTParty::Response.new(@request_object, @response_object, {'foo' => 'bar'})
+    response = HTTPotato::Response.new(@request_object, @response_object, {'foo' => 'bar'})
     response['foo'].should == 'bar'
   end
 
   it "should be able to iterate if it is array" do
-    response = HTTParty::Response.new(@request_object, @response_object, [{'foo' => 'bar'}, {'foo' => 'baz'}])
+    response = HTTPotato::Response.new(@request_object, @response_object, [{'foo' => 'bar'}, {'foo' => 'baz'}])
     response.size.should == 2
     expect {
       response.each { |item| }
@@ -64,20 +64,20 @@ describe HTTParty::Response do
   end
 
   it "allows headers to be accessed by mixed-case names in hash notation" do
-    response = HTTParty::Response.new(@request_object, @response_object, @parsed_response)
+    response = HTTPotato::Response.new(@request_object, @response_object, @parsed_response)
     response.headers['Content-LENGTH'].should == @content_length
   end
 
   it "returns a comma-delimited value when multiple values exist" do
     @response_object.add_field 'set-cookie', 'csrf_id=12345; path=/'
     @response_object.add_field 'set-cookie', '_github_ses=A123CdE; path=/'
-    response = HTTParty::Response.new(@request_object, @response_object, @parsed_response)
+    response = HTTPotato::Response.new(@request_object, @response_object, @parsed_response)
     response.headers['set-cookie'].should == "csrf_id=12345; path=/, _github_ses=A123CdE; path=/"
   end
 
   # Backwards-compatibility - previously, #headers returned a Hash
   it "responds to hash methods" do
-    response = HTTParty::Response.new(@request_object, @response_object, @parsed_response)
+    response = HTTPotato::Response.new(@request_object, @response_object, @parsed_response)
     hash_methods = {}.methods - response.headers.methods
     hash_methods.each do |method_name|
       response.headers.respond_to?(method_name).should be_true
@@ -85,12 +85,12 @@ describe HTTParty::Response do
   end
 
   xit "should allow hashes to be accessed with dot notation" do
-    response = HTTParty::Response.new(@request_object, {'foo' => 'bar'}, "{foo:'bar'}", 200, 'OK')
+    response = HTTPotato::Response.new(@request_object, {'foo' => 'bar'}, "{foo:'bar'}", 200, 'OK')
     response.foo.should == 'bar'
   end
 
   xit "should allow nested hashes to be accessed with dot notation" do
-    response = HTTParty::Response.new(@request_object, {'foo' => {'bar' => 'baz'}}, "{foo: {bar:'baz'}}", 200, 'OK')
+    response = HTTPotato::Response.new(@request_object, {'foo' => {'bar' => 'baz'}}, "{foo: {bar:'baz'}}", 200, 'OK')
     response.foo.should == {'bar' => 'baz'}
     response.foo.bar.should == 'baz'
   end
@@ -105,31 +105,31 @@ describe HTTParty::Response do
     context "major codes" do
       it "is information" do
         net_response = response_mock(Net::HTTPInformation)
-        response = HTTParty::Response.new(@request_object, net_response, '')
+        response = HTTPotato::Response.new(@request_object, net_response, '')
         response.information?.should be_true
       end
 
       it "is success" do
         net_response = response_mock(Net::HTTPSuccess)
-        response = HTTParty::Response.new(@request_object, net_response, '')
+        response = HTTPotato::Response.new(@request_object, net_response, '')
         response.success?.should be_true
       end
 
       it "is redirection" do
         net_response = response_mock(Net::HTTPRedirection)
-        response = HTTParty::Response.new(@request_object, net_response, '')
+        response = HTTPotato::Response.new(@request_object, net_response, '')
         response.redirection?.should be_true
       end
 
       it "is client error" do
         net_response = response_mock(Net::HTTPClientError)
-        response = HTTParty::Response.new(@request_object, net_response, '')
+        response = HTTPotato::Response.new(@request_object, net_response, '')
         response.client_error?.should be_true
       end
 
       it "is server error" do
         net_response = response_mock(Net::HTTPServerError)
-        response = HTTParty::Response.new(@request_object, net_response, '')
+        response = HTTPotato::Response.new(@request_object, net_response, '')
         response.server_error?.should be_true
       end
     end
@@ -179,7 +179,7 @@ describe HTTParty::Response do
       }.each do |method, klass|
         it "responds to #{method}" do
           net_response = response_mock(klass)
-          response = HTTParty::Response.new(@request_object, net_response, '')
+          response = HTTPotato::Response.new(@request_object, net_response, '')
           response.__send__(method).should be_true
         end
       end

@@ -4,7 +4,7 @@ require "optparse"
 require "pp"
 
 $:.unshift(File.join(File.dirname(__FILE__), "/../lib"))
-require "httparty"
+require "httpotato"
 
 opts = {
   :action => :get,
@@ -83,7 +83,7 @@ if opts[:verbose]
   puts
 end
 
-response = HTTParty.send(opts[:action], ARGV.first, opts)
+response = HTTPotato.send(opts[:action], ARGV.first, opts)
 if opts[:output_format].nil?
   dump_headers(response) if opts[:verbose]
   pp response

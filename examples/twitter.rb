@@ -1,10 +1,10 @@
 dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-require File.join(dir, 'httparty')
+require File.join(dir, 'httpotato')
 require 'pp'
 config = YAML::load(File.read(File.join(ENV['HOME'], '.twitter')))
 
 class Twitter
-  include HTTParty
+  include HTTPotato
   base_uri 'twitter.com'
   
   def initialize(u, p)

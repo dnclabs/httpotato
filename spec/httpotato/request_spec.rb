@@ -1,8 +1,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
-describe HTTParty::Request do
+describe HTTPotato::Request do
   before do
-    @request = HTTParty::Request.new(Net::HTTP::Get, 'http://api.foo.com/v1', :format => :xml)
+    @request = HTTPotato::Request.new(Net::HTTP::Get, 'http://api.foo.com/v1', :format => :xml)
   end
 
   describe "::NON_RAILS_QUERY_STRING_NORMALIZER" do
@@ -28,14 +28,14 @@ describe HTTParty::Request do
   end
 
   describe "initialization" do
-    it "sets parser to HTTParty::Parser" do
-      request = HTTParty::Request.new(Net::HTTP::Get, 'http://google.com')
-      request.parser.should == HTTParty::Parser
+    it "sets parser to HTTPotato::Parser" do
+      request = HTTPotato::Request.new(Net::HTTP::Get, 'http://google.com')
+      request.parser.should == HTTPotato::Parser
     end
 
     it "sets parser to the optional parser" do
       my_parser = lambda {}
-      request = HTTParty::Request.new(Net::HTTP::Get, 'http://google.com', :parser => my_parser)
+      request = HTTPotato::Request.new(Net::HTTP::Get, 'http://google.com', :parser => my_parser)
       request.parser.should == my_parser
     end
   end
@@ -43,25 +43,25 @@ describe HTTParty::Request do
   describe "#format" do
     context "request yet to be made" do
       it "returns format option" do
-        request = HTTParty::Request.new 'get', '/', :format => :xml
+        request = HTTPotato::Request.new 'get', '/', :format => :xml
         request.format.should == :xml
       end
 
       it "returns nil format" do
-        request = HTTParty::Request.new 'get', '/'
+        request = HTTPotato::Request.new 'get', '/'
         request.format.should be_nil
       end
     end
 
     context "request has been made" do
       it "returns format option" do
-        request = HTTParty::Request.new 'get', '/', :format => :xml
+        request = HTTPotato::Request.new 'get', '/', :format => :xml
         request.last_response = stub
         request.format.should == :xml
       end
 
       it "returns the content-type from the last response when the option is not set" do
-        request = HTTParty::Request.new 'get', '/'
+        request = HTTPotato::Request.new 'get', '/'
         response = stub
         response.should_receive(:[]).with('content-type').and_return('text/json')
         request.last_response = response
@@ -128,22 +128,22 @@ describe HTTParty::Request do
 
   describe 'http' do
     it "should use ssl for port 443" do
-      request = HTTParty::Request.new(Net::HTTP::Get, 'https://api.foo.com/v1:443')
+      request = HTTPotato::Request.new(Net::HTTP::Get, 'https://api.foo.com/v1:443')
       request.send(:http).use_ssl?.should == true
     end
 
     it 'should not use ssl for port 80' do
-      request = HTTParty::Request.new(Net::HTTP::Get, 'http://foobar.com')
+      request = HTTPotato::Request.new(Net::HTTP::Get, 'http://foobar.com')
       request.send(:http).use_ssl?.should == false
     end
 
     it "uses ssl for https scheme with default port" do
-      request = HTTParty::Request.new(Net::HTTP::Get, 'https://foobar.com')
+      request = HTTPotato::Request.new(Net::HTTP::Get, 'https://foobar.com')
       request.send(:http).use_ssl?.should == true
     end
 
     it "uses ssl for https scheme regardless of port" do
-      request = HTTParty::Request.new(Net::HTTP::Get, 'https://foobar.com:123456')
+      request = HTTPotato::Request.new(Net::HTTP::Get, 'https://foobar.com:123456')
       request.send(:http).use_ssl?.should == true
     end
 
@@ -185,7 +185,7 @@ describe HTTParty::Request do
           http.should_not_receive(:key=)
           Net::HTTP.stub(:new => http)
 
-          request = HTTParty::Request.new(Net::HTTP::Get, 'http://google.com')
+          request = HTTPotato::Request.new(Net::HTTP::Get, 'http://google.com')
           request.options[:pem] = :pem_contents
           request.send(:http)
         end
@@ -195,7 +195,7 @@ describe HTTParty::Request do
         before do
           @http = Net::HTTP.new('google.com')
           Net::HTTP.stub(:new => @http)
-          @request = HTTParty::Request.new(Net::HTTP::Get, 'http://google.com')
+          @request = HTTPotato::Request.new(Net::HTTP::Get, 'http://google.com')
         end
 
         it "calls #set_debug_output when the option is provided" do
@@ -218,7 +218,7 @@ describe HTTParty::Request do
         http.should_not_receive(:read_timeout=)
         Net::HTTP.stub(:new => http)
 
-        request = HTTParty::Request.new(Net::HTTP::Get, 'https://foobar.com', {:timeout => "five seconds"})
+        request = HTTPotato::Request.new(Net::HTTP::Get, 'https://foobar.com', {:timeout => "five seconds"})
         request.send(:http)
       end
 
@@ -454,7 +454,7 @@ describe HTTParty::Request do
       end
 
       it "should raise an exception" do
-        lambda { @request.perform }.should raise_error(HTTParty::RedirectionTooDeep)
+        lambda { @request.perform }.should raise_error(HTTPotato::RedirectionTooDeep)
       end
     end
   end
@@ -462,7 +462,7 @@ describe HTTParty::Request do
   context "with POST http method" do
     it "should raise argument error if query is not a hash" do
       lambda {
-        HTTParty::Request.new(Net::HTTP::Post, 'http://api.foo.com/v1', :format => :xml, :query => 'astring').perform
+        HTTPotato::Request.new(Net::HTTP::Post, 'http://api.foo.com/v1', :format => :xml, :query => 'astring').perform
       }.should raise_error(ArgumentError)
     end
   end
@@ -470,19 +470,19 @@ describe HTTParty::Request do
   describe "argument validation" do
     it "should raise argument error if basic_auth and digest_auth are both present" do
       lambda {
-        HTTParty::Request.new(Net::HTTP::Post, 'http://api.foo.com/v1', :basic_auth => {}, :digest_auth => {}).perform
+        HTTPotato::Request.new(Net::HTTP::Post, 'http://api.foo.com/v1', :basic_auth => {}, :digest_auth => {}).perform
       }.should raise_error(ArgumentError, "only one authentication method, :basic_auth or :digest_auth may be used at a time")
     end
 
     it "should raise argument error if basic_auth is not a hash" do
       lambda {
-        HTTParty::Request.new(Net::HTTP::Post, 'http://api.foo.com/v1', :basic_auth => ["foo", "bar"]).perform
+        HTTPotato::Request.new(Net::HTTP::Post, 'http://api.foo.com/v1', :basic_auth => ["foo", "bar"]).perform
       }.should raise_error(ArgumentError, ":basic_auth must be a hash")
     end
 
     it "should raise argument error if digest_auth is not a hash" do
       lambda {
-        HTTParty::Request.new(Net::HTTP::Post, 'http://api.foo.com/v1', :digest_auth => ["foo", "bar"]).perform
+        HTTPotato::Request.new(Net::HTTP::Post, 'http://api.foo.com/v1', :digest_auth => ["foo", "bar"]).perform
       }.should raise_error(ArgumentError, ":digest_auth must be a hash")
     end
   end

@@ -1,9 +1,9 @@
 dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-require File.join(dir, 'httparty')
+require File.join(dir, 'httpotato')
 require 'pp'
 
 class Rubyurl
-  include HTTParty
+  include HTTPotato
   base_uri 'rubyurl.com'
 
   def self.shorten( website_url )

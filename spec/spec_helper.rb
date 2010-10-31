@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'lib', 'httparty')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'httpotato')
 require 'spec/autorun'
 require 'fakeweb'
 
@@ -9,8 +9,8 @@ end
 Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
 
 Spec::Runner.configure do |config|
-  config.include HTTParty::StubResponse
-  config.include HTTParty::SSLTestHelper
+  config.include HTTPotato::StubResponse
+  config.include HTTPotato::SSLTestHelper
   config.before(:suite) do
     FakeWeb.allow_net_connect = false
   end

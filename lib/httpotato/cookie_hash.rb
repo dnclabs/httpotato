@@ -1,4 +1,4 @@
-class HTTParty::CookieHash < Hash #:nodoc:
+class HTTPotato::CookieHash < Hash #:nodoc:
   
   CLIENT_COOKIES = %w{path expires domain path secure HTTPOnly}
   

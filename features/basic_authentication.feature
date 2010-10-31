@@ -6,7 +6,7 @@ Feature:  Basic Authentication
 
   Scenario: Passing no credentials to a page requiring Basic Authentication
     Given a restricted page at '/basic_auth.html'
-    When I call HTTParty#get with '/basic_auth.html'
+    When I call HTTPotato#get with '/basic_auth.html'
     Then it should return a response with a 401 response code
 
   Scenario: Passing proper credentials to a page requiring Basic Authentication
@@ -14,7 +14,7 @@ Feature:  Basic Authentication
     And that service is accessed at the path '/basic_auth.html'
     And that service is protected by Basic Authentication
     And that service requires the username 'jcash' with the password 'maninblack'
-    When I call HTTParty#get with '/basic_auth.html' and a basic_auth hash:
+    When I call HTTPotato#get with '/basic_auth.html' and a basic_auth hash:
        | username | password   |
        | jcash    | maninblack |
     Then the return value should match 'Authenticated Page'

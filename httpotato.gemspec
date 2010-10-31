@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{dnclabs-httparty}
-  s.version = "0.1.0.2010103101"
+  s.name = %q{httpotato}
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["John Nunemaker", "Sandro Turriate", "Wes Morgan", "Adrian Cushman"]
+  s.authors = ["Wes Morgan", "Adrian Cushman", "Chris Gill"]
   s.date = %q{2010-10-31}
   s.default_executable = %q{httparty}
-  s.description = %q{Makes http fun! Also, makes consuming restful web services dead easy. This is the DNC Labs fork.}
+  s.description = %q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy. Forked from HTTPotato.}
   s.email = %q{innovationlab@dnc.org}
   s.executables = ["httparty"]
   s.extra_rdoc_files = [
@@ -50,15 +50,6 @@ Gem::Specification.new do |s|
      "features/supports_redirection.feature",
      "features/supports_timeout_option.feature",
      "httparty.gemspec",
-     "lib/httparty.rb",
-     "lib/httparty/cookie_hash.rb",
-     "lib/httparty/core_extensions.rb",
-     "lib/httparty/exceptions.rb",
-     "lib/httparty/module_inheritable_attributes.rb",
-     "lib/httparty/net_digest_auth.rb",
-     "lib/httparty/parser.rb",
-     "lib/httparty/request.rb",
-     "lib/httparty/response.rb",
      "spec/fixtures/delicious.xml",
      "spec/fixtures/empty.xml",
      "spec/fixtures/google.html",
@@ -88,12 +79,13 @@ Gem::Specification.new do |s|
      "website/css/common.css",
      "website/index.html"
   ]
-  s.homepage = %q{http://github.com/dnclabs/httparty/}
-  s.post_install_message = %q{When you HTTParty, you must party hard!}
+  s.homepage = %q{http://github.com/dnclabs/httpotato/}
+  s.post_install_message = %q{Winners don't use crack.}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
+  s.rubyforge_project = %q{httpotato}
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Makes http fun! Also, makes consuming restful web services dead easy.}
+  s.summary = %q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy.}
   s.test_files = [
     "spec/httparty/cookie_hash_spec.rb",
      "spec/httparty/parser_spec.rb",

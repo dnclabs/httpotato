@@ -1,8 +1,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
 
-describe HTTParty::CookieHash do
+describe HTTPotato::CookieHash do
   before(:each) do
-    @cookie_hash = HTTParty::CookieHash.new
+    @cookie_hash = HTTPotato::CookieHash.new
   end
 
   describe "#add_cookies" do

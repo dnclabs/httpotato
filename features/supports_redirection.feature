@@ -9,7 +9,7 @@ Feature: Supports Redirection
     Given a remote service that returns 'Service Response'
     And that service is accessed at the path '/landing_service.html'
     And the url '/redirector.html' redirects to '/landing_service.html'
-    When I call HTTParty#get with '/redirector.html'
+    When I call HTTPotato#get with '/redirector.html'
     Then the return value should match 'Service Response'
 
   # TODO: Look in to why this actually fails...
@@ -18,5 +18,5 @@ Feature: Supports Redirection
   Scenario: A service that redirects infinitely
     Given the url '/first.html' redirects to '/second.html'
     And the url '/second.html' redirects to '/first.html'
-    When I call HTTParty#get with '/first.html'
-    Then it should raise an HTTParty::RedirectionTooDeep exception
+    When I call HTTPotato#get with '/first.html'
+    Then it should raise an HTTPotato::RedirectionTooDeep exception

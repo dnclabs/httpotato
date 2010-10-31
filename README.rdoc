@@ -1,13 +1,13 @@
-= httparty
+= httpotato
 
-Makes http fun again!
+Makes http fun AND fast!
 
 == Note on Releases
 
 Releases are tagged on github and also released as gems on github and rubyforge. Master is pushed to whenever I add a patch or a new feature. To build from master, you can clone the code, generate the updated gemspec, build the gem and install.
 
 * rake gemspec
-* gem build httparty.gemspec
+* gem build httpotato.gemspec
 * gem install the gem that was built
 
 == Note on Patches/Pull Requests
@@ -27,28 +27,26 @@ Releases are tagged on github and also released as gems on github and rubyforge.
 
 == Examples
 
-See http://github.com/jnunemaker/httparty/tree/master/examples
+See http://github.com/dnclabs/httpotato/tree/master/examples
 
 == Command Line Interface
 
-httparty also includes the executable <tt>httparty</tt> which can be
+httpotato also includes the executable <tt>httpotato</tt> which can be
 used to query web services and examine the resulting output. By default
 it will output the response as a pretty-printed Ruby object (useful for
 grokking the structure of output). This can also be overridden to output
-formatted XML or JSON. Execute <tt>httparty --help</tt> for all the
+formatted XML or JSON. Execute <tt>httpotato --help</tt> for all the
 options. Below is an example of how easy it is.
 
-  httparty "http://twitter.com/statuses/public_timeline.json"
+  httpotato "http://twitter.com/statuses/public_timeline.json"
 
 == Requirements
 
-* Crack http://github.com/jnunemaker/crack/ - For XML and JSON parsing.
-* You like to party!
+* Crack http://github.com/jnunemaker/crack/ - For XML parsing.
+* JSON http://github.com/flori/json - For fast JSON parsing. Crack converts it to YAML first and is very slow. Huh?
+* You like performance (and potatoes)!
 
 == Install
 
-* sudo gem install httparty
+* sudo gem install httpotato
 
-== Docs
-
-http://rdoc.info/projects/jnunemaker/httparty

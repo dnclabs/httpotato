@@ -1,9 +1,9 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper'))
 
-describe HTTParty do
+describe HTTPotato do
   before(:each) do
     @klass = Class.new
-    @klass.instance_eval { include HTTParty }
+    @klass.instance_eval { include HTTPotato }
   end
 
   describe "AllowedFormats deprecated" do
@@ -11,12 +11,12 @@ describe HTTParty do
       Kernel.stub(:warn)
     end
     it "warns with a deprecation message" do
-      Kernel.should_receive(:warn).with("Deprecated: Use HTTParty::Parser::SupportedFormats")
-      HTTParty::AllowedFormats
+      Kernel.should_receive(:warn).with("Deprecated: Use HTTPotato::Parser::SupportedFormats")
+      HTTPotato::AllowedFormats
     end
 
     it "returns HTTPart::Parser::SupportedFormats" do
-      HTTParty::AllowedFormats.should == HTTParty::Parser::SupportedFormats
+      HTTPotato::AllowedFormats.should == HTTPotato::Parser::SupportedFormats
     end
   end
   
@@ -69,30 +69,30 @@ describe HTTParty do
 
   describe ".normalize_base_uri" do
     it "should add http if not present for non ssl requests" do
-      uri = HTTParty.normalize_base_uri('api.foobar.com')
+      uri = HTTPotato.normalize_base_uri('api.foobar.com')
       uri.should == 'http://api.foobar.com'
     end
 
     it "should add https if not present for ssl requests" do
-      uri = HTTParty.normalize_base_uri('api.foo.com/v1:443')
+      uri = HTTPotato.normalize_base_uri('api.foo.com/v1:443')
       uri.should == 'https://api.foo.com/v1:443'
     end
 
     it "should not remove https for ssl requests" do
-      uri = HTTParty.normalize_base_uri('https://api.foo.com/v1:443')
+      uri = HTTPotato.normalize_base_uri('https://api.foo.com/v1:443')
       uri.should == 'https://api.foo.com/v1:443'
     end
 
     it 'should not modify the parameter' do
       uri = 'http://api.foobar.com'
-      HTTParty.normalize_base_uri(uri)
+      HTTPotato.normalize_base_uri(uri)
       uri.should == 'http://api.foobar.com'
     end
   end
 
   describe "headers" do
     def expect_headers(header={})
-      HTTParty::Request.should_receive(:new) \
+      HTTPotato::Request.should_receive(:new) \
         .with(anything, anything, hash_including({ :headers => header })) \
         .and_return(mock("mock response", :perform => nil))
     end
@@ -142,13 +142,13 @@ describe HTTParty do
 
   describe "cookies" do
     def expect_cookie_header(s)
-      HTTParty::Request.should_receive(:new) \
+      HTTPotato::Request.should_receive(:new) \
         .with(anything, anything, hash_including({ :headers => { "cookie" => s } })) \
         .and_return(mock("mock response", :perform => nil))
     end
 
     it "should not be in the headers by default" do
-      HTTParty::Request.stub!(:new).and_return(stub(nil, :perform => nil))
+      HTTPotato::Request.stub!(:new).and_return(stub(nil, :perform => nil))
       @klass.get("")
       @klass.headers.keys.should_not include("cookie")
     end
@@ -285,19 +285,19 @@ describe HTTParty do
 
     it "raises UnsupportedFormat when the parser cannot handle the format" do
       @klass.format :json
-      class MyParser < HTTParty::Parser
+      class MyParser < HTTPotato::Parser
         SupportedFormats = {}
       end unless defined?(MyParser)
       expect do
         @klass.parser MyParser
-      end.to raise_error(HTTParty::UnsupportedFormat)
+      end.to raise_error(HTTPotato::UnsupportedFormat)
     end
 
     it 'does not validate format whe custom parser is a proc' do
       expect do
         @klass.format :json
         @klass.parser lambda {|body, format|}
-      end.to_not raise_error(HTTParty::UnsupportedFormat)
+      end.to_not raise_error(HTTPotato::UnsupportedFormat)
     end
   end
 
@@ -325,19 +325,19 @@ describe HTTParty do
     it 'should not allow funky format' do
       lambda do
         @klass.format :foobar
-      end.should raise_error(HTTParty::UnsupportedFormat)
+      end.should raise_error(HTTPotato::UnsupportedFormat)
     end
 
     it 'should only print each format once with an exception' do
       lambda do
         @klass.format :foobar
-      end.should raise_error(HTTParty::UnsupportedFormat, "':foobar' Must be one of: html, json, plain, xml, yaml")
+      end.should raise_error(HTTPotato::UnsupportedFormat, "':foobar' Must be one of: html, json, plain, xml, yaml")
     end
 
     it 'sets the default parser' do
       @klass.default_options[:parser].should be_nil
       @klass.format :json
-      @klass.default_options[:parser].should == HTTParty::Parser
+      @klass.default_options[:parser].should == HTTPotato::Parser
     end
 
     it 'does not reset parser to the default parser' do
@@ -394,46 +394,46 @@ describe HTTParty do
 
   describe "with explicit override of automatic redirect handling" do
     before do
-      @request = HTTParty::Request.new(Net::HTTP::Get, 'http://api.foo.com/v1', :format => :xml, :no_follow => true)
+      @request = HTTPotato::Request.new(Net::HTTP::Get, 'http://api.foo.com/v1', :format => :xml, :no_follow => true)
       @redirect = stub_response 'first redirect', 302
       @redirect['location'] = 'http://foo.com/bar'
-      HTTParty::Request.stub(:new => @request)
+      HTTPotato::Request.stub(:new => @request)
     end
 
     it "should fail with redirected GET" do
       lambda do
         @error = @klass.get('/foo', :no_follow => true)
-      end.should raise_error(HTTParty::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
+      end.should raise_error(HTTPotato::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
     end
 
     it "should fail with redirected POST" do
       lambda do
         @klass.post('/foo', :no_follow => true)
-      end.should raise_error(HTTParty::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
+      end.should raise_error(HTTPotato::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
     end
 
     it "should fail with redirected DELETE" do
       lambda do
         @klass.delete('/foo', :no_follow => true)
-      end.should raise_error(HTTParty::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
+      end.should raise_error(HTTPotato::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
     end
 
     it "should fail with redirected PUT" do
       lambda do
         @klass.put('/foo', :no_follow => true)
-      end.should raise_error(HTTParty::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
+      end.should raise_error(HTTPotato::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
     end
 
     it "should fail with redirected HEAD" do
       lambda do
         @klass.head('/foo', :no_follow => true)
-      end.should raise_error(HTTParty::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
+      end.should raise_error(HTTPotato::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
     end
 
     it "should fail with redirected OPTIONS" do
       lambda do
         @klass.options('/foo', :no_follow => true)
-      end.should raise_error(HTTParty::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
+      end.should raise_error(HTTPotato::RedirectionTooDeep) {|e| e.response.body.should == 'first redirect'}
     end
   end
 
@@ -446,7 +446,7 @@ describe HTTParty do
 
       @additional_klass = Class.new
       @additional_klass.instance_eval do
-        include HTTParty
+        include HTTPotato
         base_uri "http://second.com"
         default_params :two => 2
       end
@@ -461,7 +461,7 @@ describe HTTParty do
   describe "two child classes inheriting from one parent" do
     before(:each) do
       @parent = Class.new do
-        include HTTParty
+        include HTTPotato
         def self.name
           "Parent"
         end
@@ -526,7 +526,7 @@ describe HTTParty do
         end
       end
       @parent = Class.new(@grand_parent) do
-        include HTTParty
+        include HTTPotato
       end
     end
     it "continues running the #inherited on the parent" do
@@ -538,12 +538,12 @@ describe HTTParty do
   describe "#get" do
     it "should be able to get html" do
       stub_http_response_with('google.html')
-      HTTParty.get('http://www.google.com').should == file_fixture('google.html')
+      HTTPotato.get('http://www.google.com').should == file_fixture('google.html')
     end
 
     it "should be able parse response type json automatically" do
       stub_http_response_with('twitter.json')
-      tweets = HTTParty.get('http://twitter.com/statuses/public_timeline.json')
+      tweets = HTTPotato.get('http://twitter.com/statuses/public_timeline.json')
       tweets.size.should == 20
       tweets.first['user'].should == {
         "name"              => "Pyk",
@@ -560,7 +560,7 @@ describe HTTParty do
 
     it "should be able parse response type xml automatically" do
       stub_http_response_with('twitter.xml')
-      tweets = HTTParty.get('http://twitter.com/statuses/public_timeline.xml')
+      tweets = HTTPotato.get('http://twitter.com/statuses/public_timeline.xml')
       tweets['statuses'].size.should == 20
       tweets['statuses'].first['user'].should == {
         "name"              => "Magic 8 Bot",
@@ -577,39 +577,39 @@ describe HTTParty do
 
     it "should not get undefined method add_node for nil class for the following xml" do
       stub_http_response_with('undefined_method_add_node_for_nil.xml')
-      result = HTTParty.get('http://foobar.com')
+      result = HTTPotato.get('http://foobar.com')
       result.should == {"Entities"=>{"href"=>"https://s3-sandbox.parature.com/api/v1/5578/5633/Account", "results"=>"0", "total"=>"0", "page_size"=>"25", "page"=>"1"}}
     end
 
     it "should parse empty response fine" do
       stub_http_response_with('empty.xml')
-      result = HTTParty.get('http://foobar.com')
+      result = HTTPotato.get('http://foobar.com')
       result.should be_nil
     end
 
     it "should accept http URIs" do
       stub_http_response_with('google.html')
       lambda do
-        HTTParty.get('http://google.com')
-      end.should_not raise_error(HTTParty::UnsupportedURIScheme)
+        HTTPotato.get('http://google.com')
+      end.should_not raise_error(HTTPotato::UnsupportedURIScheme)
     end
 
     it "should accept https URIs" do
       stub_http_response_with('google.html')
       lambda do
-        HTTParty.get('https://google.com')
-      end.should_not raise_error(HTTParty::UnsupportedURIScheme)
+        HTTPotato.get('https://google.com')
+      end.should_not raise_error(HTTPotato::UnsupportedURIScheme)
     end
 
     it "should raise an ArgumentError on URIs that are not http or https" do
       lambda do
-        HTTParty.get("file:///there_is_no_party_on/my/filesystem")
-      end.should raise_error(HTTParty::UnsupportedURIScheme)
+        HTTPotato.get("file:///there_is_no_party_on/my/filesystem")
+      end.should raise_error(HTTPotato::UnsupportedURIScheme)
     end
 
     it "should raise an InvalidURIError on URIs that can't be parsed at all" do
       lambda do
-        HTTParty.get("It's the one that says 'Bad URI'")
+        HTTPotato.get("It's the one that says 'Bad URI'")
       end.should raise_error(URI::InvalidURIError)
     end
   end

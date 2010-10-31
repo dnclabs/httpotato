@@ -1,22 +1,22 @@
-module HTTParty
-  # The default parser used by HTTParty, supports xml, json, html, yaml, and
+module HTTPotato
+  # The default parser used by HTTPotato, supports xml, json, html, yaml, and
   # plain text.
   #
   # == Custom Parsers
   #
-  # If you'd like to do your own custom parsing, subclassing HTTParty::Parser
+  # If you'd like to do your own custom parsing, subclassing HTTPotato::Parser
   # will make that process much easier. There are a few different ways you can
-  # utilize HTTParty::Parser as a superclass.
+  # utilize HTTPotato::Parser as a superclass.
   #
   # @example Intercept the parsing for all formats
-  #   class SimpleParser < HTTParty::Parser
+  #   class SimpleParser < HTTPotato::Parser
   #     def parse
   #       perform_parsing
   #     end
   #   end
   #
   # @example Add the atom format and parsing method to the default parser
-  #   class AtomParsingIncluded < HTTParty::Parser
+  #   class AtomParsingIncluded < HTTPotato::Parser
   #     SupportedFormats.merge!(
   #       {"application/atom+xml" => :atom}
   #     )
@@ -27,7 +27,7 @@ module HTTParty
   #   end
   #
   # @example Only support the atom format
-  #   class ParseOnlyAtom < HTTParty::Parser
+  #   class ParseOnlyAtom < HTTPotato::Parser
   #     SupportedFormats = {"application/atom+xml" => :atom}
   #
   #     def atom

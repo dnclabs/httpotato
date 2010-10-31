@@ -2,13 +2,13 @@ require 'rubygems'
 require 'active_support'
 
 dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-require File.join(dir, 'httparty')
+require File.join(dir, 'httpotato')
 require 'pp'
 config = YAML::load(File.read(File.join(ENV['HOME'], '.aaws')))
 
 module AAWS
   class Book
-    include HTTParty
+    include HTTPotato
     base_uri 'http://ecs.amazonaws.com'
     default_params :Service => 'AWSECommerceService', :Operation => 'ItemSearch', :SearchIndex => 'Books'
     

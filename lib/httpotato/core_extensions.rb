@@ -1,4 +1,4 @@
-module HTTParty
+module HTTPotato
   if defined?(::BasicObject)
     BasicObject = ::BasicObject #:nodoc:
   else

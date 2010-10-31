@@ -1,6 +1,6 @@
 require 'mongrel'
 require 'active_support'
-require './lib/httparty'
+require './lib/httpotato'
 require 'spec/expectations'
 
 Before do

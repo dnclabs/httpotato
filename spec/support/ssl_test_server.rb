@@ -4,7 +4,7 @@ require 'thread'
 
 # NOTE: This code is garbage.  It probably has deadlocks, it might leak
 # threads, and otherwise cause problems in a real system.  It's really only
-# intended for testing HTTParty.
+# intended for testing HTTPotato.
 class SSLTestServer
   attr_accessor :ctx    # SSLContext object
   attr_reader :port

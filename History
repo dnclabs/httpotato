@@ -31,8 +31,8 @@
 * major enhancements
   * Digest Auth (bartiaco, sbecker, gilles, and aaronrussell)
   * Maintain HTTP method across redirects (bartiaco and sbecker)
-  * HTTParty::Response#response returns the Net::HTTPResponse object
-  * HTTParty::Response#headers returns a HTTParty::Response::Headers object
+  * HTTPotato::Response#response returns the Net::HTTPResponse object
+  * HTTPotato::Response#headers returns a HTTPotato::Response::Headers object
     which quacks like a Hash + Net::HTTPHeader. The #headers method continues
     to be backwards-compatible with the old Hash return value but may become
     deprecated in the future.
@@ -40,7 +40,7 @@
 * minor enhancements
   * Update crack requirement to version 0.1.7
     You may still get a warning because Crack's version constant is out of date
-  * Timeout option can be set for all requests using HTTParty.default_timeout (taazza)
+  * Timeout option can be set for all requests using HTTPotato.default_timeout (taazza)
   * Closed #38 "headers hash should downcase keys so canonical header name can be used"
   * Closed #40 "Gzip response" wherein gziped and deflated responses are
     automatically inflated. (carsonmcdonald)
@@ -51,7 +51,7 @@
 
 == 0.5.1 2010-01-30
 * bug fixes
-  * Handle 304 response correctly by returning the HTTParty::Response object instead of redirecting (seth and hellvinz)
+  * Handle 304 response correctly by returning the HTTPotato::Response object instead of redirecting (seth and hellvinz)
   * Only redirect 300 responses if the header contains a Location
   * Don't append empty query strings to the uri. Closes #31
   * When no_follow is enabled, only raise the RedirectionTooDeep exception when a response tries redirecting. Closes #28
@@ -59,28 +59,28 @@
 * major enhancements
   * Removed rubygems dependency. I suggest adding rubygems to RUBYOPT if this causes problems for you.
     $ export RUBYOPT='rubygems'
-  * HTTParty#debug_output prints debugging information for the current request (iwarshak)
-  * HTTParty#no_follow now available as a class-level option. Sets whether or not to follow redirects.
+  * HTTPotato#debug_output prints debugging information for the current request (iwarshak)
+  * HTTPotato#no_follow now available as a class-level option. Sets whether or not to follow redirects.
 
 * minor enhancements
-  * HTTParty::VERSION now available
+  * HTTPotato::VERSION now available
   * Update crack requirement to version 0.1.5
 
 == 0.5.0 2009-12-07
 * bug fixes
   * inheritable attributes no longer mutable by subclasses (yyyc514)
-  * namespace BasicObject within HTTParty to avoid class name collisions (eric)
+  * namespace BasicObject within HTTPotato to avoid class name collisions (eric)
 
 * major enhancements
   * Custom Parsers via class or proc
-  * Deprecation warning on HTTParty::AllowedFormats
-    moved to HTTParty::Parser::SupportedFormats
+  * Deprecation warning on HTTPotato::AllowedFormats
+    moved to HTTPotato::Parser::SupportedFormats
 
 * minor enhancements
   * Curl inspired output when using the binary in verbose mode (alexvollmer)
   * raise UnsupportedURIScheme when scheme is not HTTP or HTTPS (djspinmonkey)
   * Allow SSL for ports other than 443 when scheme is HTTPS (stefankroes)
-  * Accept PEM certificates via HTTParty#pem (chrislo)
+  * Accept PEM certificates via HTTPotato#pem (chrislo)
   * Support HEAD and OPTION verbs (grempe)
   * Verify SSL certificates when providing a PEM file (collectiveidea/danielmorrison)
 
@@ -92,7 +92,7 @@
 
 * minor enhancements
   * Timeout option added; will raise a Timeout::Error after the timeout has elapsed (attack). Closes #17
-    HTTParty.get "http://github.com", :timeout => 1
+    HTTPotato.get "http://github.com", :timeout => 1
   * Building gem with Jeweler
 
 == 0.4.4 2009-07-19
@@ -125,7 +125,7 @@
   
 == 0.3.0 2009-01-31
 * 1 major enhancement, 1 bug fix
-  * JSON gem no longer a requirement. It was conflicting with rails json stuff so I just stole ActiveSupport's json decoding and bundled it with HTTParty.
+  * JSON gem no longer a requirement. It was conflicting with rails json stuff so I just stole ActiveSupport's json decoding and bundled it with HTTPotato.
   * Fixed bug where query strings were being duplicated on redirects
   * Added a bunch of specs and moved some code around.
   
@@ -158,7 +158,7 @@
   
 == 0.2.5 2009-01-05
 * 1 major enhancement
-  * Add command line interface to HTTParty (Alex Vollmer)
+  * Add command line interface to HTTPotato (Alex Vollmer)
   
 == 0.2.4 2008-12-23
 * 1 bug fix
@@ -173,7 +173,7 @@
 
 == 0.2.1 2008-12-08
 * 1 bug fix
-  * Fixed that HTTParty was borking ActiveSupport and as such Rails (thanks to Rob Sanheim)
+  * Fixed that HTTPotato was borking ActiveSupport and as such Rails (thanks to Rob Sanheim)
 
 == 0.2.0 2008-12-07
 * 1 major enhancement
@@ -183,7 +183,7 @@
 * 3 major enhancements
   * Moved base_uri normalization into request class and out of httparty module, fixing 
     the problem where base_uri was not always being normalized.
-  * Stupid simple support for HTTParty.get/post/put/delete. (jqr)
+  * Stupid simple support for HTTPotato.get/post/put/delete. (jqr)
   * Switched gem management to Echoe from newgem.
 
 == 0.1.7 2008-11-30

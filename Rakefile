@@ -1,26 +1,25 @@
 require 'rake'
-require File.expand_path('../lib/httparty', __FILE__)
+require File.expand_path('../lib/httpotato', __FILE__)
 
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name        = "dnclabs-httparty"
-    gem.summary     = %Q{Makes http fun! Also, makes consuming restful web services dead easy.}
-    gem.description = %Q{Makes http fun! Also, makes consuming restful web services dead easy. This is the DNC Labs fork.}
+    gem.name        = "httpotato"
+    gem.summary     = %Q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy.}
+    gem.description = %Q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy. Forked from HTTPotato.}
     gem.email       = "innovationlab@dnc.org"
-    gem.homepage    = "http://github.com/dnclabs/httparty/"
-    gem.authors     = ["John Nunemaker", "Sandro Turriate", "Wes Morgan", "Adrian Cushman"]
-    gem.version     = HTTParty::VERSION.dup + '.2010103101'
+    gem.homepage    = "http://github.com/dnclabs/httpotato/"
+    gem.authors     = ["Wes Morgan", "Adrian Cushman", "Chris Gill"]
+    gem.version     = HTTPotato::VERSION.dup
 
-    #gem.add_dependency 'crack', HTTParty::CRACK_DEPENDENCY
-    gem.add_dependency 'json', HTTParty::JSON_DEPENDENCY
+    gem.add_dependency 'crack', HTTPotato::CRACK_DEPENDENCY
+    gem.add_dependency 'json', HTTPotato::JSON_DEPENDENCY
 
     gem.add_development_dependency "activesupport", "~>2.3"
     gem.add_development_dependency "cucumber", "~>0.7"
     gem.add_development_dependency "fakeweb", "~>1.2"
     gem.add_development_dependency "rspec", "~>1.3"
-    gem.add_development_dependency "jeweler", "~>1.5"
-    gem.post_install_message = "When you HTTParty, you must party hard!"
+    gem.post_install_message = "Winners don't use crack."
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -63,12 +62,20 @@ Rake::RDocTask.new do |rdoc|
   end
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "httparty #{version}"
+  rdoc.title = "httpotato #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
-  rdoc.rdoc_files.include('lib/httparty.rb')
+  rdoc.rdoc_files.include('lib/httpotato.rb')
 end
 
+<<<<<<< HEAD
+=======
+desc 'Upload website files to rubyforge'
+task :website do
+  sh %{rsync -av website/ jnunemaker@rubyforge.org:/var/www/gforge-projects/httpotato}
+end
+
+>>>>>>> rename everything to httpotato
 begin
   require 'yard'
   YARD::Rake::YardocTask.new do |t|

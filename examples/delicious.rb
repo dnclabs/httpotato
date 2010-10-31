@@ -1,10 +1,10 @@
 dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-require File.join(dir, 'httparty')
+require File.join(dir, 'httpotato')
 require 'pp'
 config = YAML::load(File.read(File.join(ENV['HOME'], '.delicious')))
 
 class Delicious
-  include HTTParty
+  include HTTPotato
   base_uri 'https://api.del.icio.us/v1'
   
   def initialize(u, p)

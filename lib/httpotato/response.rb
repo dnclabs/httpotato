@@ -1,5 +1,5 @@
-module HTTParty
-  class Response < HTTParty::BasicObject #:nodoc:
+module HTTPotato
+  class Response < HTTPotato::BasicObject #:nodoc:
     class Headers
       include ::Net::HTTPHeader
 

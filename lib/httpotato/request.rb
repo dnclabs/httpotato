@@ -1,4 +1,4 @@
-module HTTParty
+module HTTPotato
   class Request #:nodoc:
     SupportedHTTPMethods = [
       Net::HTTP::Get,
@@ -217,7 +217,7 @@ module HTTParty
 
     def capture_cookies(response)
       return unless response['Set-Cookie']
-      cookies_hash = HTTParty::CookieHash.new()
+      cookies_hash = HTTPotato::CookieHash.new()
       cookies_hash.add_cookies(options[:headers]['Cookie']) if options[:headers] && options[:headers]['Cookie']
       cookies_hash.add_cookies(response['Set-Cookie'])
       options[:headers] ||= {}
@@ -234,7 +234,7 @@ module HTTParty
     end
 
     def validate
-      raise HTTParty::RedirectionTooDeep.new(last_response), 'HTTP redirects too deep' if options[:limit].to_i <= 0
+      raise HTTPotato::RedirectionTooDeep.new(last_response), 'HTTP redirects too deep' if options[:limit].to_i <= 0
       raise ArgumentError, 'only get, post, put, delete, head, and options methods are supported' unless SupportedHTTPMethods.include?(http_method)
       raise ArgumentError, ':headers must be a hash' if options[:headers] && !options[:headers].is_a?(Hash)
       raise ArgumentError, 'only one authentication method, :basic_auth or :digest_auth may be used at a time' if options[:basic_auth] && options[:digest_auth]

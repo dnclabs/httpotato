@@ -1,4 +1,4 @@
-module HTTParty
+module HTTPotato
   module ModuleInheritableAttributes #:nodoc:
     def self.included(base)
       base.extend(ClassMethods)

@@ -3,25 +3,25 @@ require 'net/http'
 require 'net/https'
 require 'uri'
 require 'zlib'
-#require 'crack'
+require 'crack'
 require 'json/ext'
 
 dir = Pathname(__FILE__).dirname.expand_path
 
-require dir + 'httparty/module_inheritable_attributes'
-require dir + 'httparty/cookie_hash'
-require dir + 'httparty/net_digest_auth'
+require dir + 'httpotato/module_inheritable_attributes'
+require dir + 'httpotato/cookie_hash'
+require dir + 'httpotato/net_digest_auth'
 
-# @see HTTParty::ClassMethods
-module HTTParty
-  VERSION          = "0.1.0".freeze
+module HTTPotato
+  VERSION          = "1.0.0".freeze
+  CRACK_DEPENDENCY = "0.1.8".freeze
   JSON_DEPENDENCY  = "1.4.6".freeze
 
   module AllowedFormatsDeprecation
     def const_missing(const)
       if const.to_s =~ /AllowedFormats$/
-        Kernel.warn("Deprecated: Use HTTParty::Parser::SupportedFormats")
-        HTTParty::Parser::SupportedFormats
+        Kernel.warn("Deprecated: Use HTTPotato::Parser::SupportedFormats")
+        HTTPotato::Parser::SupportedFormats
       else
         super
       end
@@ -32,7 +32,7 @@ module HTTParty
 
   def self.included(base)
     base.extend ClassMethods
-    base.send :include, HTTParty::ModuleInheritableAttributes
+    base.send :include, HTTPotato::ModuleInheritableAttributes
     base.send(:mattr_inheritable, :default_options)
     base.send(:mattr_inheritable, :default_cookies)
     base.instance_variable_set("@default_options", {})
@@ -70,7 +70,7 @@ module HTTParty
     # Allows setting http proxy information to be used
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     http_proxy 'http://foo.com', 80
     #   end
     def http_proxy(addr=nil, port = nil)
@@ -82,18 +82,18 @@ module HTTParty
     # Will normalize uri to include http, etc.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     base_uri 'twitter.com'
     #   end
     def base_uri(uri=nil)
       return default_options[:base_uri] unless uri
-      default_options[:base_uri] = HTTParty.normalize_base_uri(uri)
+      default_options[:base_uri] = HTTPotato.normalize_base_uri(uri)
     end
 
     # Allows setting basic authentication username and password.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     basic_auth 'username', 'password'
     #   end
     def basic_auth(u, p)
@@ -103,7 +103,7 @@ module HTTParty
     # Allows setting digest authentication username and password.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     digest_auth 'username', 'password'
     #   end
     def digest_auth(u, p)
@@ -136,7 +136,7 @@ module HTTParty
     # Great for api keys and such.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     default_params :api_key => 'secret', :another => 'foo'
     #   end
     def default_params(h={})
@@ -149,7 +149,7 @@ module HTTParty
     # Timeout is specified in seconds.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     default_timeout 10
     #   end
     def default_timeout(t)
@@ -161,7 +161,7 @@ module HTTParty
     # The output stream is passed on to Net::HTTP#set_debug_output.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     debug_output $stderr
     #   end
     def debug_output(stream = $stderr)
@@ -171,7 +171,7 @@ module HTTParty
     # Allows setting HTTP headers to be used for each request.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     headers 'Accept' => 'text/html'
     #   end
     def headers(h={})
@@ -202,7 +202,7 @@ module HTTParty
     # Must be one of the allowed formats ie: json, xml
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     format :json
     #   end
     def format(f = nil)
@@ -216,22 +216,22 @@ module HTTParty
     end
 
     # Declare whether or not to follow redirects.  When true, an
-    # {HTTParty::RedirectionTooDeep} error will raise upon encountering a
+    # {HTTPotato::RedirectionTooDeep} error will raise upon encountering a
     # redirect. You can then gain access to the response object via
-    # HTTParty::RedirectionTooDeep#response.
+    # HTTPotato::RedirectionTooDeep#response.
     #
-    # @see HTTParty::ResponseError#response
+    # @see HTTPotato::ResponseError#response
     #
     # @example
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     base_uri 'http://google.com'
     #     no_follow true
     #   end
     #
     #   begin
     #     Foo.get('/')
-    #   rescue HTTParty::RedirectionTooDeep => e
+    #   rescue HTTPotato::RedirectionTooDeep => e
     #     puts e.response.body
     #   end
     def no_follow(value = false)
@@ -244,7 +244,7 @@ module HTTParty
     #
     # @example
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     base_uri 'http://google.com'
     #     maintain_method_across_redirects true
     #   end
@@ -256,8 +256,8 @@ module HTTParty
     # Allows setting a PEM file to be used
     #
     #   class Foo
-    #     include HTTParty
-    #     pem File.read('/home/user/my.pem'), "optional password"
+    #     include HTTPotato
+    #     pem File.read('/home/user/my.pem')
     #   end
     def pem(pem_contents, password=nil)
       default_options[:pem] = pem_contents
@@ -299,7 +299,7 @@ module HTTParty
     # Allows setting an OpenSSL certificate authority file
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     ssl_ca_file '/etc/ssl/certs/ca-certificates.crt'
     #   end
     def ssl_ca_file(path)
@@ -309,7 +309,7 @@ module HTTParty
     # Allows setting an OpenSSL certificate authority path (directory)
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     ssl_ca_path '/etc/ssl/certs/'
     #   end
     def ssl_ca_path(path)
@@ -319,7 +319,7 @@ module HTTParty
     # Allows setting a custom parser for the response.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #     parser Proc.new {|data| ...}
     #   end
     def parser(custom_parser = nil)
@@ -334,7 +334,7 @@ module HTTParty
     # Allows making a get request to a url.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #   end
     #
     #   # Simple get with full url
@@ -350,7 +350,7 @@ module HTTParty
     # Allows making a post request to a url.
     #
     #   class Foo
-    #     include HTTParty
+    #     include HTTPotato
     #   end
     #
     #   # Simple post with full url and setting the body
@@ -420,7 +420,7 @@ module HTTParty
   end
 
   class Basement #:nodoc:
-    include HTTParty
+    include HTTPotato
   end
 
   def self.get(*args)
@@ -449,16 +449,16 @@ module HTTParty
 
 end
 
-require dir + 'httparty/core_extensions'
-require dir + 'httparty/exceptions'
-require dir + 'httparty/parser'
-require dir + 'httparty/request'
-require dir + 'httparty/response'
+require dir + 'httpotato/core_extensions'
+require dir + 'httpotato/exceptions'
+require dir + 'httpotato/parser'
+require dir + 'httpotato/request'
+require dir + 'httpotato/response'
 
-if JSON::VERSION != HTTParty::JSON_DEPENDENCY
-  warn "warning: HTTParty depends on version #{HTTParty::JSON_DEPENDENCY} of json, not #{JSON::VERSION}."
+if JSON::VERSION != HTTPotato::JSON_DEPENDENCY
+  warn "warning: HTTPotato depends on version #{HTTPotato::JSON_DEPENDENCY} of json, not #{JSON::VERSION}."
 end
 
-#if Crack::VERSION != HTTParty::CRACK_DEPENDENCY
-  #warn "warning: HTTParty depends on version #{HTTParty::CRACK_DEPENDENCY} of crack, not #{Crack::VERSION}."
-#end
+if Crack::VERSION != HTTPotato::CRACK_DEPENDENCY
+  warn "warning: HTTPotato depends on version #{HTTPotato::CRACK_DEPENDENCY} of crack, not #{Crack::VERSION}."
+end
