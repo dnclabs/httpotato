@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name        = "httpotato"
     gem.summary     = %Q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy.}
-    gem.description = %Q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy. Forked from HTTPotato.}
+    gem.description = %Q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy. Forked from HTTParty.}
     gem.email       = "innovationlab@dnc.org"
     gem.homepage    = "http://github.com/dnclabs/httpotato/"
     gem.authors     = ["Wes Morgan", "Adrian Cushman", "Chris Gill"]
