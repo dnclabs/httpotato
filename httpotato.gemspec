@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{httpotato}
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wes Morgan", "Adrian Cushman", "Chris Gill"]
-  s.date = %q{2010-10-31}
+  s.date = %q{2010-11-01}
   s.default_executable = %q{httpotato}
-  s.description = %q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy. Forked from HTTPotato.}
+  s.description = %q{Makes http fun & JSON parsing fast! Also, makes consuming restful web services dead easy. Forked from HTTParty.}
   s.email = %q{innovationlab@dnc.org}
   s.executables = ["httpotato"]
   s.extra_rdoc_files = [
