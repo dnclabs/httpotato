@@ -13,7 +13,7 @@ require dir + 'httpotato/cookie_hash'
 require dir + 'httpotato/net_digest_auth'
 
 module HTTPotato
-  VERSION          = "1.0.0".freeze
+  VERSION          = "1.0.1".freeze
   CRACK_DEPENDENCY = "0.1.8".freeze
   JSON_DEPENDENCY  = "1.4.6".freeze
 
