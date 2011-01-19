@@ -68,14 +68,6 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/httpotato.rb')
 end
 
-<<<<<<< HEAD
-=======
-desc 'Upload website files to rubyforge'
-task :website do
-  sh %{rsync -av website/ jnunemaker@rubyforge.org:/var/www/gforge-projects/httpotato}
-end
-
->>>>>>> rename everything to httpotato
 begin
   require 'yard'
   YARD::Rake::YardocTask.new do |t|
