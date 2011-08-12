@@ -75,6 +75,8 @@ module HTTPotato
 
     def attach_ssl_certificates(http)
       if http.use_ssl?
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
         # Client certificate authentication
         if options[:pem]
           http.cert = OpenSSL::X509::Certificate.new(options[:pem])
